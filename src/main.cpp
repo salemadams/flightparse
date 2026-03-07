@@ -1,4 +1,5 @@
 #include "fdr_parser.h"
+#include "validator.h"
 #include <iostream>
 
 int main(int argc, char *argv[]) {
@@ -8,8 +9,10 @@ int main(int argc, char *argv[]) {
   }
   try {
     FdrParser fdr_parser(argv[1]);
+    Validator validator(fdr_parser.getCSVData());
     std::cout << "Parsed " << fdr_parser.getCSVData().size() << " records ("
-              << fdr_parser.getErrors().size() << " rejected)\n";
+              << fdr_parser.getErrors().size() << " rejected, "
+              << validator.getWarnings().size() << " warnings)\n";
   } catch (const std::runtime_error &e) {
     std::cerr << e.what() << "\n";
     return 1;
